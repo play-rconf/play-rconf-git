@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.play-rconf</groupId>
+    <artifactId>play-rconf-git</artifactId>
+    <version>20.10</version>
+    <name>Play Remote Configuration - GIT</name>
+    <description>Retrieves configuration hosted on a GIT repository</description>
+    <url>https://github.com/play-rconf/play-rconf-git</url>
+
+    <scm>
+        <connection>scm:git:https://github.com/play-rconf/play-rconf-git.git</connection>
+        <developerConnection>scm:git:https://github.com/play-rconf/play-rconf-git.git</developerConnection>
+        <url>https://github.com/play-rconf/play-rconf-git.git</url>
+    </scm>
+
+    <issueManagement>
+        <url>https://github.com/play-rconf/play-rconf-git/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>The MIT License (MIT)</name>
+            <url>https://github.com/play-rconf/play-rconf-git/master/LICENSE</url>
+        </license>
+    </licenses>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
+    <build>
+        <plugins>
+            <!-- Java version to use -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <!-- Javadoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <show>package</show>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Attach sources -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Check style -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <encoding>UTF-8</encoding>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                    <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+                    <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <filtering>true</filtering>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.play-rconf</groupId>
+            <artifactId>play-rconf-sdk</artifactId>
+            <version>release~18.05</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.16.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
