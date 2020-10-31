@@ -193,7 +193,7 @@ public class GitProvider extends AbstractProvider {
 
         if (Objects.equals(mode, "user")) {
             if (!repositoryURI.startsWith("http")) {
-                throw new ConfigException.BadValue("mode", String.format("Invalid repository URI for %s mode.", mode));
+                throw new ConfigException.BadPath("mode", String.format("Invalid repository URI for %s mode.", mode));
             }
 
             if (!config.hasPath("user.login") || config.getString("user.login").isEmpty()) {
@@ -203,7 +203,7 @@ public class GitProvider extends AbstractProvider {
             }
         } else if (Objects.equals(mode, "ssh-rsa")) {
             if (!repositoryURI.startsWith("git@")) {
-                throw new ConfigException.BadValue("mode", String.format("Invalid repository URI for %s mode.", mode));
+                throw new ConfigException.BadPath("mode", String.format("Invalid repository URI for %s mode.", mode));
             }
 
             if (!config.hasPath("ssh-rsa.private-key") || config.getString("ssh-rsa.private-key").isEmpty()) {
