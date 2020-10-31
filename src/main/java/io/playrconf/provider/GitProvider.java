@@ -237,7 +237,7 @@ public class GitProvider extends AbstractProvider {
                         final String privateKey = config.getString("ssh-rsa.private-key");
                         final String password = config.hasPath("ssh-rsa.password")
                             ? config.getString("ssh-rsa.password") : null;
-                        JSch jSch = super.createDefaultJSch(fs);
+                        final JSch jSch = super.createDefaultJSch(fs);
                         jSch.addIdentity(privateKey, password);
                         return jSch;
                     }
