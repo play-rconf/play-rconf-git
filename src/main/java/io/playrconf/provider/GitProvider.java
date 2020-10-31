@@ -175,7 +175,7 @@ public class GitProvider extends AbstractProvider {
      * Check if all required fields are set in the project config file.
      * @param config Config file.
      */
-    private void checkRequiredConfigFields(Config config) throws ConfigException {
+    private void checkRequiredConfigFields(final Config config) throws ConfigException {
         if (!config.hasPath("mode") || config.getString("mode").isEmpty())
             throw new ConfigException.Missing("mode");
 
@@ -232,10 +232,10 @@ public class GitProvider extends AbstractProvider {
                 final SshSessionFactory sshSessionFactory = new JschConfigSessionFactory() {
 
                     @Override
-                    protected JSch createDefaultJSch(FS fs) throws JSchException {
+                    protected JSch createDefaultJSch(final FS fs) throws JSchException {
                         // SSH configuration (Optional password).
-                        String privateKey = config.getString("ssh-rsa.private-key");
-                        String password = config.hasPath("ssh-rsa.password")
+                        final String privateKey = config.getString("ssh-rsa.private-key");
+                        final String password = config.hasPath("ssh-rsa.password")
                             ? config.getString("ssh-rsa.password") : null;
                         JSch jSch = super.createDefaultJSch(fs);
                         jSch.addIdentity(privateKey, password);
@@ -244,7 +244,7 @@ public class GitProvider extends AbstractProvider {
 
                 };
                 cloneCommand.setTransportConfigCallback(transport -> {
-                    SshTransport sshTransport = (SshTransport) transport;
+                    final SshTransport sshTransport = (SshTransport) transport;
                     sshTransport.setSshSessionFactory(sshSessionFactory);
                 });
                 break;
@@ -253,6 +253,7 @@ public class GitProvider extends AbstractProvider {
                 final String username = config.getString("user.login");
                 final String password = config.getString("user.password");
                 cloneCommand.setCredentialsProvider(new UsernamePasswordCredentialsProvider(username, password));
+                break;
 
             default:
                 // Public repository over HTTPS.
