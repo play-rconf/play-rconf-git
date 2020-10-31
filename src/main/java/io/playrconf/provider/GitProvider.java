@@ -112,22 +112,22 @@ public class GitProvider extends AbstractProvider {
     }
 
     @Override
-    public void loadData(Config config,
-                         Consumer<KeyValueCfgObject> kvObjConsumer,
-                         Consumer<FileCfgObject> fileObjConsumer) throws ConfigException, RemoteConfException {
+    public void loadData(final Config config,
+                         final Consumer<KeyValueCfgObject> kvObjConsumer,
+                         final Consumer<FileCfgObject> fileObjConsumer) throws ConfigException, RemoteConfException {
         this.checkRequiredConfigFields(config);
 
         try {
-            String mode = config.getString("mode").trim();
-            String repositoryURI = config.getString("uri").trim();
-            String branch = config.getString("branch").trim();
-            String filepath = config.getString("filepath").trim();
+            final String mode = config.getString("mode").trim();
+            final String repositoryURI = config.getString("uri").trim();
+            final String branch = config.getString("branch").trim();
+            final String filepath = config.getString("filepath").trim();
 
-            Repository repository = this.cloneRepository(config, repositoryURI, mode, branch);
-            ObjectId head = repository.resolve(Constants.HEAD);
-            RevCommit lastCommit = repository.parseCommit(head);
+            final Repository repository = this.cloneRepository(config, repositoryURI, mode, branch);
+            final ObjectId head = repository.resolve(Constants.HEAD);
+            final RevCommit lastCommit = repository.parseCommit(head);
 
-            String conf = readFile(repository, lastCommit, filepath);
+            final String conf = readFile(repository, lastCommit, filepath);
             final ConfigParseOptions options = ConfigParseOptions
                 .defaults()
                 .setOriginDescription("play-rconf")
@@ -188,8 +188,8 @@ public class GitProvider extends AbstractProvider {
         if (!config.hasPath("filepath") || config.getString("filepath").isEmpty())
             throw new ConfigException.Missing("filepath");
 
-        String mode = config.getString("mode").trim();
-        String repositoryURI = config.getString("uri").trim();
+        final String mode = config.getString("mode").trim();
+        final String repositoryURI = config.getString("uri").trim();
 
         if (Objects.equals(mode, "user")) {
             if (!repositoryURI.startsWith("http")) {
@@ -221,22 +221,22 @@ public class GitProvider extends AbstractProvider {
      * @param branch Branch name.
      * @return Repository.
      */
-    private Repository cloneRepository(Config config, String repositoryURI, String mode, String branch) throws GitAPIException {
-        File repoDir = new File("play-rconf-git", String.format("%s-%s-%d", repositoryURI, branch, System.currentTimeMillis()));
-        CloneCommand cloneCommand = Git.cloneRepository()
+    private Repository cloneRepository(final Config config, final String repositoryURI, final String mode, final String branch) throws GitAPIException {
+        final File repoDir = new File("play-rconf-git", String.format("%s-%s-%d", repositoryURI, branch, System.currentTimeMillis()));
+        final CloneCommand cloneCommand = Git.cloneRepository()
             .setURI(repositoryURI)
             .setDirectory(repoDir);
 
         switch (mode) {
             case "ssh-rsa":
-                SshSessionFactory sshSessionFactory = new JschConfigSessionFactory() {
+                final SshSessionFactory sshSessionFactory = new JschConfigSessionFactory() {
 
                     @Override
                     protected JSch createDefaultJSch(FS fs) throws JSchException {
                         // SSH configuration (Optional password).
                         String privateKey = config.getString("ssh-rsa.private-key");
-                        String password = config.hasPath("ssh-rsa.password") ?
-                            config.getString("ssh-rsa.password") : null;
+                        String password = config.hasPath("ssh-rsa.password")
+                            ? config.getString("ssh-rsa.password") : null;
                         JSch jSch = super.createDefaultJSch(fs);
                         jSch.addIdentity(privateKey, password);
                         return jSch;
@@ -250,8 +250,8 @@ public class GitProvider extends AbstractProvider {
                 break;
 
             case "user":
-                String username = config.getString("user.login");
-                String password = config.getString("user.password");
+                final String username = config.getString("user.login");
+                final String password = config.getString("user.password");
                 cloneCommand.setCredentialsProvider(new UsernamePasswordCredentialsProvider(username, password));
 
             default:
@@ -269,13 +269,13 @@ public class GitProvider extends AbstractProvider {
      * @param filepath Path to retrieve the config content.
      * @return Config content as String.
      */
-    private String readFile(Repository repository, RevCommit commit, String filepath) throws IOException {
-        TreeWalk walk = TreeWalk.forPath(repository, filepath, commit.getTree());
+    private String readFile(final Repository repository, final RevCommit commit, final String filepath) throws IOException {
+        final TreeWalk walk = TreeWalk.forPath(repository, filepath, commit.getTree());
         if (walk == null) {
             throw new IllegalArgumentException(String.format("Filepath (%s) not found.", filepath));
         }
 
-        byte[] bytes = repository.open(walk.getObjectId(0)).getBytes();
+        final byte[] bytes = repository.open(walk.getObjectId(0)).getBytes();
         return new String(bytes, StandardCharsets.UTF_8);
     }
 

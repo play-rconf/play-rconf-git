@@ -361,17 +361,17 @@ public class GitProviderTest {
         loadConfigWithError(INITIAL_CONFIGURATION_ERROR_MISSING_PRIVATE_KEY_FOR_SSH_MODE);
     }
 
-    @Test(expected = ConfigException.BadValue.class)
+    @Test(expected = ConfigException.BadPath.class)
     public void gitTest_012() {
         loadConfigWithError(INITIAL_CONFIGURATION_ERROR_URI_BAD_VALUE_FOR_NONE_MODE);
     }
 
-    @Test(expected = ConfigException.BadValue.class)
+    @Test(expected = ConfigException.BadPath.class)
     public void gitTest_013() {
         loadConfigWithError(INITIAL_CONFIGURATION_ERROR_URI_BAD_VALUE_FOR_USER_MODE);
     }
 
-    @Test(expected = ConfigException.BadValue.class)
+    @Test(expected = ConfigException.BadPath.class)
     public void gitTest_014() {
         loadConfigWithError(INITIAL_CONFIGURATION_ERROR_URI_BAD_VALUE_FOR_SSH_RSA_MODE);
     }
