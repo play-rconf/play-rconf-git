@@ -48,11 +48,12 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Properties;
@@ -221,11 +222,12 @@ public class GitProvider extends AbstractProvider {
      * @param branch Branch name.
      * @return Repository.
      */
-    private Repository cloneRepository(final Config config, final String repositoryURI, final String mode, final String branch) throws GitAPIException {
-        final File repoDir = new File("play-rconf-git", String.format("%s-%s-%d", repositoryURI, branch, System.currentTimeMillis()));
+    private Repository cloneRepository(final Config config, final String repositoryURI, final String mode, final String branch) throws GitAPIException, IOException {
+        String dirPath = String.format("play-rconf-git-%s", String.format("%s-%s-%d", repositoryURI, branch, System.currentTimeMillis()));
+        Path repoDirPath = Files.createTempDirectory(dirPath);
         final CloneCommand cloneCommand = Git.cloneRepository()
             .setURI(repositoryURI)
-            .setDirectory(repoDir);
+            .setDirectory(repoDirPath.toFile());
 
         switch (mode) {
             case "ssh-rsa":
