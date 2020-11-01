@@ -223,8 +223,8 @@ public class GitProvider extends AbstractProvider {
      * @return Repository.
      */
     private Repository cloneRepository(final Config config, final String repositoryURI, final String mode, final String branch) throws GitAPIException, IOException {
-        String dirPath = String.format("play-rconf-git-%s", String.format("%s-%s-%d", repositoryURI, branch, System.currentTimeMillis()));
-        Path repoDirPath = Files.createTempDirectory(dirPath);
+        final String dirPath = String.format("play-rconf-git-%s", String.format("%s-%s-%d", repositoryURI, branch, System.currentTimeMillis()));
+        final Path repoDirPath = Files.createTempDirectory(dirPath);
         final CloneCommand cloneCommand = Git.cloneRepository()
             .setURI(repositoryURI)
             .setDirectory(repoDirPath.toFile());
