@@ -64,7 +64,6 @@ public class GitProviderTest {
     private static final Config INITIAL_CONFIGURATION_FOR_NONE_MODE = ConfigFactory.parseString(
         "application.hello = \"Bad value\"\n"
             + "git.uri = \"" + System.getenv("REMOTECONF_GIT_URI") + "\"\n"
-            + "git.branch = \"" + System.getenv("REMOTECONF_GIT_BRANCH") + "\"\n"
             + "git.filepath = \"" + System.getenv("REMOTECONF_GIT_FILEPATH") + "\"\n"
             + "git.mode = \"none\"\n"
     );
@@ -75,7 +74,6 @@ public class GitProviderTest {
     private static final Config INITIAL_CONFIGURATION_FOR_USER_MODE = ConfigFactory.parseString(
         "application.hello = \"Bad value\"\n"
             + "git.uri = \"" + System.getenv("REMOTECONF_GIT_USER_URI") + "\"\n"
-            + "git.branch = \"" + System.getenv("REMOTECONF_GIT_BRANCH") + "\"\n"
             + "git.filepath = \"" + System.getenv("REMOTECONF_GIT_FILEPATH") + "\"\n"
             + "git.mode = \"user\"\n"
             + "git.user.login = \"" + System.getenv("REMOTECONF_GIT_USER_LOGIN") + "\"\n"
@@ -88,18 +86,6 @@ public class GitProviderTest {
     private static final Config INITIAL_CONFIGURATION_ERROR_MISSING_URI = ConfigFactory.parseString(
         "application.hello = \"Bad value\"\n"
             + "git.uri = \"\"\n"
-            + "git.branch = \"" + System.getenv("REMOTECONF_GIT_BRANCH") + "\"\n"
-            + "git.filepath = \"" + System.getenv("REMOTECONF_GIT_FILEPATH") + "\"\n"
-            + "git.mode = \"none\"\n"
-    );
-
-    /**
-     * Initial configuration. Git repository URI is empty.
-     */
-    private static final Config INITIAL_CONFIGURATION_ERROR_MISSING_BRANCH = ConfigFactory.parseString(
-        "application.hello = \"Bad value\"\n"
-            + "git.uri = \"" + System.getenv("REMOTECONF_GIT_URI") + "\"\n"
-            + "git.branch = \"\"\n"
             + "git.filepath = \"" + System.getenv("REMOTECONF_GIT_FILEPATH") + "\"\n"
             + "git.mode = \"none\"\n"
     );
@@ -110,7 +96,6 @@ public class GitProviderTest {
     private static final Config INITIAL_CONFIGURATION_ERROR_MISSING_FILEPATH = ConfigFactory.parseString(
         "application.hello = \"Bad value\"\n"
             + "git.uri = \"" + System.getenv("REMOTECONF_GIT_URI") + "\"\n"
-            + "git.branch = \"" + System.getenv("REMOTECONF_GIT_BRANCH") + "\"\n"
             + "git.filepath = \"\"\n"
             + "git.mode = \"none\"\n"
     );
@@ -121,7 +106,6 @@ public class GitProviderTest {
     private static final Config INITIAL_CONFIGURATION_ERROR_MISSING_MODE = ConfigFactory.parseString(
         "application.hello = \"Bad value\"\n"
             + "git.uri = \"" + System.getenv("REMOTECONF_GIT_URI") + "\"\n"
-            + "git.branch = \"" + System.getenv("REMOTECONF_GIT_BRANCH") + "\"\n"
             + "git.filepath = \"" + System.getenv("REMOTECONF_GIT_FILEPATH") + "\"\n"
             + "git.mode = \"\"\n"
     );
@@ -132,7 +116,6 @@ public class GitProviderTest {
     private static final Config INITIAL_CONFIGURATION_ERROR_MISSING_LOGIN_FOR_USER_MODE = ConfigFactory.parseString(
         "application.hello = \"Bad value\"\n"
             + "git.uri = \"" + System.getenv("REMOTECONF_GIT_USER_URI") + "\"\n"
-            + "git.branch = \"" + System.getenv("REMOTECONF_GIT_BRANCH") + "\"\n"
             + "git.filepath = \"" + System.getenv("REMOTECONF_GIT_FILEPATH") + "\"\n"
             + "git.mode = \"user\"\n"
             + "git.user.login = \"\"\n"
@@ -145,7 +128,6 @@ public class GitProviderTest {
     private static final Config INITIAL_CONFIGURATION_ERROR_MISSING_PASSWORD_FOR_USER_MODE = ConfigFactory.parseString(
         "application.hello = \"Bad value\"\n"
             + "git.uri = \"" + System.getenv("REMOTECONF_GIT_USER_URI") + "\"\n"
-            + "git.branch = \"" + System.getenv("REMOTECONF_GIT_BRANCH") + "\"\n"
             + "git.filepath = \"" + System.getenv("REMOTECONF_GIT_FILEPATH") + "\"\n"
             + "git.mode = \"user\"\n"
             + "git.user.login = \"" + System.getenv("REMOTECONF_GIT_USER_LOGIN") + "\"\n"
@@ -158,7 +140,6 @@ public class GitProviderTest {
     private static final Config INITIAL_CONFIGURATION_ERROR_MISSING_PRIVATE_KEY_FOR_SSH_MODE = ConfigFactory.parseString(
         "application.hello = \"Bad value\"\n"
             + "git.uri = \"" + System.getenv("REMOTECONF_GIT_SSH_URI") + "\"\n"
-            + "git.branch = \"" + System.getenv("REMOTECONF_GIT_BRANCH") + "\"\n"
             + "git.filepath = \"" + System.getenv("REMOTECONF_GIT_FILEPATH") + "\"\n"
             + "git.mode = \"ssh-rsa\"\n"
             + "git.ssh-rsa.private-key = \"\"\n"
@@ -170,7 +151,6 @@ public class GitProviderTest {
     private static final Config INITIAL_CONFIGURATION_ERROR_URI_BAD_VALUE_FOR_NONE_MODE = ConfigFactory.parseString(
         "application.hello = \"Bad value\"\n"
             + "git.uri = \"git@github.com/play-rconf/play-rconf-git.git\"\n"
-            + "git.branch = \"" + System.getenv("REMOTECONF_GIT_BRANCH") + "\"\n"
             + "git.filepath = \"" + System.getenv("REMOTECONF_GIT_FILEPATH") + "\"\n"
             + "git.mode = \"none\"\n"
     );
@@ -181,7 +161,6 @@ public class GitProviderTest {
     private static final Config INITIAL_CONFIGURATION_ERROR_URI_BAD_VALUE_FOR_USER_MODE = ConfigFactory.parseString(
         "application.hello = \"Bad value\"\n"
             + "git.uri = \"git@github.com/play-rconf/play-rconf-git.git\"\n"
-            + "git.branch = \"" + System.getenv("REMOTECONF_GIT_BRANCH") + "\"\n"
             + "git.filepath = \"" + System.getenv("REMOTECONF_GIT_FILEPATH") + "\"\n"
             + "git.mode = \"user\"\n"
     );
@@ -192,7 +171,6 @@ public class GitProviderTest {
     private static final Config INITIAL_CONFIGURATION_ERROR_URI_BAD_VALUE_FOR_SSH_RSA_MODE = ConfigFactory.parseString(
         "application.hello = \"Bad value\"\n"
             + "git.uri = \"https://github.com/play-rconf/play-rconf-git\"\n"
-            + "git.branch = \"" + System.getenv("REMOTECONF_GIT_BRANCH") + "\"\n"
             + "git.filepath = \"" + System.getenv("REMOTECONF_GIT_FILEPATH") + "\"\n"
             + "git.mode = \"ssh-rsa\"\n"
     );
@@ -203,7 +181,6 @@ public class GitProviderTest {
     private static final Config INITIAL_CONFIGURATION_ERROR_UNKNOWN_GIT_URI = ConfigFactory.parseString(
         "application.hello = \"Bad value\"\n"
             + "git.uri = \"https://doma1n-do3s-not-3x15t5-2832893729387.com\"\n"
-            + "git.branch = \"" + System.getenv("REMOTECONF_GIT_BRANCH") + "\"\n"
             + "git.filepath = \"" + System.getenv("REMOTECONF_GIT_FILEPATH") + "\"\n"
             + "git.mode = \"none\"\n"
     );
@@ -262,11 +239,6 @@ public class GitProviderTest {
     @Test(expected = ConfigException.Missing.class)
     public void gitTest_005() {
         loadConfigWithError(INITIAL_CONFIGURATION_ERROR_MISSING_URI);
-    }
-
-    @Test(expected = ConfigException.Missing.class)
-    public void gitTest_006() {
-        loadConfigWithError(INITIAL_CONFIGURATION_ERROR_MISSING_BRANCH);
     }
 
     @Test(expected = ConfigException.Missing.class)

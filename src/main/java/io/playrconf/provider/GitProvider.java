@@ -121,10 +121,9 @@ public class GitProvider extends AbstractProvider {
         try {
             final String mode = config.getString("mode").trim();
             final String repositoryURI = config.getString("uri").trim();
-            final String branch = config.getString("branch").trim();
             final String filepath = config.getString("filepath").trim();
 
-            final Repository repository = this.cloneRepository(config, repositoryURI, mode, branch);
+            final Repository repository = this.cloneRepository(config, repositoryURI, mode);
             final ObjectId head = repository.resolve(Constants.HEAD);
             final RevCommit lastCommit = repository.parseCommit(head);
 
@@ -183,9 +182,6 @@ public class GitProvider extends AbstractProvider {
         if (!config.hasPath("uri") || config.getString("uri").isEmpty())
             throw new ConfigException.Missing("uri");
 
-        if (!config.hasPath("branch") || config.getString("branch").isEmpty())
-            throw new ConfigException.Missing("branch");
-
         if (!config.hasPath("filepath") || config.getString("filepath").isEmpty())
             throw new ConfigException.Missing("filepath");
 
@@ -199,7 +195,7 @@ public class GitProvider extends AbstractProvider {
 
             if (!config.hasPath("user.login") || config.getString("user.login").isEmpty()) {
                 throw new ConfigException.Missing("user.login");
-            } else if (!config.hasPath("user.password")) {
+            } else if (!config.hasPath("user.password") || config.getString("user.password").isEmpty()) {
                 throw new ConfigException.Missing("user.password");
             }
         } else if (Objects.equals(mode, "ssh-rsa")) {
@@ -214,16 +210,15 @@ public class GitProvider extends AbstractProvider {
     }
 
     /**
-     * Clones the branch of Git repository.
+     * Clones main branch of Git repository.
      *
      * @param config Config file.
      * @param repositoryURI Repository URI using HTTPS or SSH.
      * @param mode Auth mode.
-     * @param branch Branch name.
      * @return Repository.
      */
-    private Repository cloneRepository(final Config config, final String repositoryURI, final String mode, final String branch) throws GitAPIException, IOException {
-        final String dirPath = String.format("play-rconf-git-%s", String.format("%s-%s-%d", repositoryURI, branch, System.currentTimeMillis()));
+    private Repository cloneRepository(final Config config, final String repositoryURI, final String mode) throws GitAPIException, IOException {
+        final String dirPath = String.format("play-rconf-git-%s", System.currentTimeMillis());
         final Path repoDirPath = Files.createTempDirectory(dirPath);
         final CloneCommand cloneCommand = Git.cloneRepository()
             .setURI(repositoryURI)
@@ -268,7 +263,7 @@ public class GitProvider extends AbstractProvider {
     /**
      * Read config file from repository.
      * @param repository Repository ref.
-     * @param commit Last commit ref from the current branch.
+     * @param commit Last commit ref from the main branch.
      * @param filepath Path to retrieve the config content.
      * @return Config content as String.
      */
