@@ -51,10 +51,6 @@ import java.util.Properties;
  *          a) REMOTECONF_GIT_USER_URI
  *          b) REMOTECONF_GIT_USER_LOGIN
  *          c) REMOTECONF_GIT_USER_PASSWORD
- *      2. For ssh-rsa mode:
- *          a) REMOTECONF_GIT_SSH_URI
- *          b) REMOTECONF_GIT_SSH_PRIVATE_KEY_PATH
- *          c) REMOTECONF_GIT_SSH_PASSWORD
  *
  * @author Felipe Boenzi
  * @since 20.10.29
@@ -84,31 +80,6 @@ public class GitProviderTest {
             + "git.mode = \"user\"\n"
             + "git.user.login = \"" + System.getenv("REMOTECONF_GIT_USER_LOGIN") + "\"\n"
             + "git.user.password = \"" + System.getenv("REMOTECONF_GIT_USER_PASSWORD") + "\"\n"
-    );
-
-    /**
-     * Initial configuration for private repository with SSH-RSA authentication without password.
-     */
-    private static final Config INITIAL_CONFIGURATION_FOR_SSH_MODE = ConfigFactory.parseString(
-        "application.hello = \"Bad value\"\n"
-            + "git.uri = \"" + System.getenv("REMOTECONF_GIT_SSH_URI") + "\"\n"
-            + "git.branch = \"" + System.getenv("REMOTECONF_GIT_BRANCH") + "\"\n"
-            + "git.filepath = \"" + System.getenv("REMOTECONF_GIT_FILEPATH") + "\"\n"
-            + "git.mode = \"ssh-rsa\"\n"
-            + "git.ssh-rsa.private-key = \"" + System.getenv("REMOTECONF_GIT_SSH_RSA_PRIVATE_KEY_PATH") + "\"\n"
-            + "git.ssh-rsa.password = \"" + System.getenv("REMOTECONF_GIT_SSH_RSA_PASSWORD") + "\"\n"
-    );
-
-    /**
-     * Initial configuration for private repository with SSH-RSA authentication.
-     */
-    private static final Config INITIAL_CONFIGURATION_FOR_SSH_MODE_WITHOUT_PASSWORD = ConfigFactory.parseString(
-        "application.hello = \"Bad value\"\n"
-            + "git.uri = \"" + System.getenv("REMOTECONF_GIT_SSH_URI") + "\"\n"
-            + "git.branch = \"" + System.getenv("REMOTECONF_GIT_BRANCH") + "\"\n"
-            + "git.filepath = \"" + System.getenv("REMOTECONF_GIT_FILEPATH") + "\"\n"
-            + "git.mode = \"ssh-rsa\"\n"
-            + "git.ssh-rsa.private-key = \"" + System.getenv("REMOTECONF_GIT_SSH_PRIVATE_KEY_PATH") + "\"\n"
     );
 
     /**
@@ -281,44 +252,6 @@ public class GitProviderTest {
         final Config remoteConfig = ConfigFactory
             .parseString(stringBuilder.toString())
             .withFallback(INITIAL_CONFIGURATION_FOR_USER_MODE);
-
-        // Standard values
-        Assert.assertEquals(5, remoteConfig.getInt("application.five"));
-        Assert.assertEquals("world", remoteConfig.getString("application.hello"));
-        Assert.assertTrue(remoteConfig.getBoolean("application.is-enabled"));
-    }
-
-    @Test
-    public void gitTest_003() {
-        final StringBuilder stringBuilder = new StringBuilder(512);
-        final Provider provider = new GitProvider();
-        provider.loadData(
-            INITIAL_CONFIGURATION_FOR_SSH_MODE.getConfig(provider.getConfigurationObjectName()),
-            keyValueCfgObject -> keyValueCfgObject.apply(stringBuilder),
-            FileCfgObject::apply
-        );
-        final Config remoteConfig = ConfigFactory
-            .parseString(stringBuilder.toString())
-            .withFallback(INITIAL_CONFIGURATION_FOR_SSH_MODE);
-
-        // Standard values
-        Assert.assertEquals(5, remoteConfig.getInt("application.five"));
-        Assert.assertEquals("world", remoteConfig.getString("application.hello"));
-        Assert.assertTrue(remoteConfig.getBoolean("application.is-enabled"));
-    }
-
-    @Test
-    public void gitTest_004() {
-        final StringBuilder stringBuilder = new StringBuilder(512);
-        final Provider provider = new GitProvider();
-        provider.loadData(
-            INITIAL_CONFIGURATION_FOR_SSH_MODE_WITHOUT_PASSWORD.getConfig(provider.getConfigurationObjectName()),
-            keyValueCfgObject -> keyValueCfgObject.apply(stringBuilder),
-            FileCfgObject::apply
-        );
-        final Config remoteConfig = ConfigFactory
-            .parseString(stringBuilder.toString())
-            .withFallback(INITIAL_CONFIGURATION_FOR_SSH_MODE_WITHOUT_PASSWORD);
 
         // Standard values
         Assert.assertEquals(5, remoteConfig.getInt("application.five"));
