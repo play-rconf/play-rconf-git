@@ -62,9 +62,9 @@ import java.util.function.Consumer;
 /**
  * Retrieves configuration hosted behind a Git repository.
  * You can use three authentication modes:
- *      1. None     (Used for public repositories);
- *      2. User     (Used for private repositories over HTTPS);
- *      3. SSH-RSA  (Used for private repositories over SSH with a RSA Private Key).
+ * 1. None     (Used for public repositories);
+ * 2. User     (Used for private repositories over HTTPS);
+ * 3. SSH-RSA  (Used for private repositories over SSH with a RSA Private Key).
  *
  * @author Felipe Bonezi
  * @since 20.10.29
@@ -173,7 +173,8 @@ public class GitProvider extends AbstractProvider {
 
     /**
      * Check if all required fields are set in the project config file.
-     * @param config Config file.
+     *
+     * @param config Config file
      */
     private void checkRequiredConfigFields(final Config config) throws ConfigException {
         if (!config.hasPath("mode") || config.getString("mode").isEmpty())
@@ -212,10 +213,10 @@ public class GitProvider extends AbstractProvider {
     /**
      * Clones main branch of Git repository.
      *
-     * @param config Config file.
-     * @param repositoryURI Repository URI using HTTPS or SSH.
-     * @param mode Auth mode.
-     * @return Repository.
+     * @param config        Config file
+     * @param repositoryURI Repository URI using HTTPS or SSH
+     * @param mode          Auth mode
+     * @return Repository
      */
     private Repository cloneRepository(final Config config, final String repositoryURI, final String mode) throws GitAPIException, IOException {
         final String dirPath = String.format("play-rconf-git-%s", System.currentTimeMillis());
@@ -230,7 +231,7 @@ public class GitProvider extends AbstractProvider {
 
                     @Override
                     protected JSch createDefaultJSch(final FS fs) throws JSchException {
-                        // SSH configuration (Optional password).
+                        // SSH configuration (Optional password)
                         final String privateKey = config.getString("ssh-rsa.private-key");
                         final String password = config.hasPath("ssh-rsa.password")
                             ? config.getString("ssh-rsa.password") : null;
@@ -253,7 +254,7 @@ public class GitProvider extends AbstractProvider {
                 break;
 
             default:
-                // Public repository over HTTPS.
+                // Public repository over HTTPS
                 break;
         }
 
@@ -262,10 +263,11 @@ public class GitProvider extends AbstractProvider {
 
     /**
      * Read config file from repository.
-     * @param repository Repository ref.
-     * @param commit Last commit ref from the main branch.
-     * @param filepath Path to retrieve the config content.
-     * @return Config content as String.
+     *
+     * @param repository Repository ref
+     * @param commit     Last commit ref from the main branch
+     * @param filepath   Path to retrieve the config content
+     * @return Config content as String
      */
     private String readFile(final Repository repository, final RevCommit commit, final String filepath) throws IOException {
         final TreeWalk walk = TreeWalk.forPath(repository, filepath, commit.getTree());

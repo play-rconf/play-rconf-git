@@ -39,18 +39,20 @@ import java.util.Properties;
 
 /**
  * GitProviderTest.
- *
+ * <p>
  * Default environment variables:
- *      1. REMOTECONF_GIT_BRANCH
- *      2. REMOTECONF_GIT_FILEPATH
- *
+ * 1. REMOTECONF_GIT_BRANCH
+ * 2. REMOTECONF_GIT_FILEPATH
+ * </p>
+ * <p>
  * Required environment variables:
- *      1. For none mode:
- *          a) REMOTECONF_GIT_URI
- *      2. For user mode:
- *          a) REMOTECONF_GIT_USER_URI
- *          b) REMOTECONF_GIT_USER_LOGIN
- *          c) REMOTECONF_GIT_USER_PASSWORD
+ * 1. For none mode:
+ * a) REMOTECONF_GIT_URI
+ * 2. For user mode:
+ * a) REMOTECONF_GIT_USER_URI
+ * b) REMOTECONF_GIT_USER_LOGIN
+ * c) REMOTECONF_GIT_USER_PASSWORD
+ * </p>
  *
  * @author Felipe Boenzi
  * @since 20.10.29
